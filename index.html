@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JODD FUN - Free Premium Apps</title>
+  <meta name="description" content="Download premium apps for free on JODD FUN">
+  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/cronyff644/FILESS/main/Gemini_Generated_Image_fcgfz7fcgfz7fcgf.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #0f0f1a 100%); min-height: 100vh; color: white; }
+
+    /* ==================== CONFIGURATION SECTION ====================
+       Edit app details, music, social links below!
+    ================================================================ */
+
+    /* Header - Dark Slate Gradient with white blur effect */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: linear-gradient(to right, rgba(15, 23, 42, 0.3), rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.3));
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    .header::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent);
+      border-radius: 50%;
+      filter: blur(40px);
+      pointer-events: none;
+    }
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 12px;
+      position: relative;
+      z-index: 1;
+    }
+    .header-left { display: flex; align-items: center; gap: 12px; }
+    .menu-btn {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      color: white;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .menu-btn:hover { background: rgba(255, 255, 255, 0.2); }
+    .logo-section { display: flex; align-items: center; gap: 10px; }
+    .logo-img { width: 42px; height: 42px; object-fit: contain; }
+    .logo-text h1 { font-size: 18px; font-weight: 800; color: white; line-height: 1.1; }
+    .logo-text h1 span { color: #60a5fa; }
+    .logo-text p { font-size: 10px; color: #9ca3af; font-weight: 500; }
+    .header-right { display: flex; align-items: center; gap: 8px; }
+    .moon-btn {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      color: #fbbf24;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .moon-btn:hover { background: rgba(255, 255, 255, 0.2); }
+
+    /* Side Menu */
+    .menu-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 150;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s;
+    }
+    .menu-overlay.active { opacity: 1; visibility: visible; }
+    .side-menu {
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 280px;
+      max-width: 85vw;
+      background: linear-gradient(180deg, #1a1a2e 0%, #0f0f1a 100%);
+      z-index: 151;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      overflow-y: auto;
+      border-right: 1px solid rgba(96, 165, 250, 0.2);
+    }
+    .side-menu.active { transform: translateX(0); }
+    .menu-header {
+      padding: 20px 16px;
+      background: linear-gradient(to right, rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.9));
+      border-bottom: 1px solid rgba(96, 165, 250, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: relative;
+    }
+    .menu-logo { width: 50px; height: 50px; object-fit: contain; }
+    .menu-title h2 { font-size: 18px; font-weight: 800; color: white; }
+    .menu-title h2 span { color: #60a5fa; }
+    .menu-title p { font-size: 11px; color: #9ca3af; }
+    .menu-close {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(239, 68, 68, 0.2);
+      border: none;
+      border-radius: 8px;
+      color: #f87171;
+      cursor: pointer;
+    }
+    .menu-section { padding: 16px; }
+    .menu-section-title { font-size: 11px; font-weight: 700; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; }
+    .menu-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      padding: 12px;
+      background: transparent;
+      border: none;
+      border-radius: 10px;
+      color: #d1d5db;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      font-family: inherit;
+    }
+    .menu-item:hover { background: rgba(96, 165, 250, 0.1); color: white; }
+    .menu-item svg { width: 20px; height: 20px; flex-shrink: 0; }
+    .menu-divider { height: 1px; background: rgba(96, 165, 250, 0.1); margin: 8px 16px; }
+    .social-item.instagram:hover { background: linear-gradient(135deg, rgba(236, 72, 153, 0.2), rgba(168, 85, 247, 0.2)); color: #f472b6; }
+    .social-item.youtube:hover { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+    .social-item.telegram:hover { background: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+
+    /* Hero Section - Purple Gradient */
+    .hero {
+      padding-top: 80px;
+      padding-bottom: 32px;
+      background: linear-gradient(90deg, rgba(77, 54, 208, 1) 0%, rgba(132, 116, 254, 1) 100%);
+      box-shadow: 0 0.7em 1.5em -0.5em hsla(249, 62%, 51%, 0.745);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .hero-container { max-width: 1200px; margin: 0 auto; padding: 0 16px; position: relative; z-index: 1; }
+    .hero-content { text-align: center; }
+    .hero-title { font-size: 28px; font-weight: 900; color: white; margin-bottom: 8px; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); }
+    .hero-title span { color: #fde047; }
+    .hero-subtitle { font-size: 14px; color: rgba(255, 255, 255, 0.9); margin-bottom: 20px; }
+    .search-box { max-width: 400px; margin: 0 auto; }
+    .search-input-wrapper { position: relative; }
+    .search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; color: #9ca3af; }
+    .search-input {
+      width: 100%;
+      padding: 14px 16px 14px 48px;
+      background: rgba(255, 255, 255, 0.95);
+      border: 2px solid transparent;
+      border-radius: 16px;
+      font-size: 15px;
+      color: #1f2937;
+      font-family: inherit;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      transition: all 0.2s;
+    }
+    .search-input:focus { outline: none; border-color: #4d36d0; }
+    .search-input::placeholder { color: #9ca3af; }
+
+    /* App Grid */
+    .app-section { max-width: 1200px; margin: 0 auto; padding: 24px 12px; }
+    .app-grid { display: grid; grid-template-columns: 1fr; gap: 20px; max-width: 480px; margin: 0 auto; }
+    .no-results { text-align: center; padding: 48px 0; color: #9ca3af; font-size: 18px; display: none; }
+
+    /* App Card - New Glassmorphism Design */
+    .app-card {
+      cursor: pointer;
+      border-radius: 20px;
+      background: linear-gradient(145deg, rgba(30, 30, 60, 0.9) 0%, rgba(15, 15, 35, 0.95) 100%);
+      border: 1px solid rgba(96, 165, 250, 0.3);
+      position: relative;
+      transition: all 0.4s ease;
+      overflow: hidden;
+      box-shadow: 
+        0 10px 40px rgba(0, 0, 0, 0.4),
+        0 0 20px rgba(96, 165, 250, 0.1);
+    }
+    .app-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899, #3b82f6);
+      background-size: 300% 100%;
+      animation: shimmer 3s linear infinite;
+    }
+    @keyframes shimmer { 0% { background-position: 0% 50%; } 100% { background-position: 300% 50%; } }
+    .app-card::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 0% 0%, rgba(96, 165, 250, 0.15) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .app-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      border-color: rgba(96, 165, 250, 0.6);
+      box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.5),
+        0 0 40px rgba(96, 165, 250, 0.2);
+    }
+    .app-card-inner {
+      padding: 20px;
+      position: relative;
+      z-index: 1;
+    }
+    .badges { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+    .badge { border-radius: 9999px; padding: 5px 14px; font-size: 11px; font-weight: 700; color: white; text-transform: uppercase; letter-spacing: 0.5px; }
+    .badge-new { background: linear-gradient(135deg, #f87171, #ef4444); box-shadow: 0 2px 10px rgba(239, 68, 68, 0.4); }
+    .badge-premium { background: linear-gradient(135deg, #a855f7, #8b5cf6); box-shadow: 0 2px 10px rgba(139, 92, 246, 0.4); }
+    .app-info { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+    .app-icon { 
+      width: 85px; 
+      height: 85px; 
+      flex-shrink: 0; 
+      border-radius: 18px; 
+      overflow: hidden; 
+      border: 2px solid rgba(96, 165, 250, 0.4);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+      position: relative;
+    }
+    .app-icon::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .app-icon img { width: 100%; height: 100%; object-fit: cover; }
+    .app-details { flex: 1; min-width: 0; }
+    .app-name { font-size: 19px; font-weight: 800; color: white; margin-bottom: 6px; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); }
+    .app-description { font-size: 12px; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.05em; }
+    .stars { display: flex; align-items: center; gap: 3px; margin-bottom: 16px; }
+    .star { width: 22px; height: 22px; }
+    .star-filled { color: #facc15; fill: #facc15; filter: drop-shadow(0 0 4px rgba(250, 204, 21, 0.5)); }
+    .star-empty { color: #4b5563; fill: #4b5563; }
+
+    /* Download Button - Blue Gradient */
+    .btn-download-blue {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 16px;
+      padding: 14px 20px;
+      color: white;
+      background-size: 280% auto;
+      background-image: linear-gradient(325deg, hsla(217, 100%, 56%, 1) 0%, hsla(194, 100%, 69%, 1) 55%, hsla(217, 100%, 56%, 1) 90%);
+      border: none;
+      border-radius: 14px;
+      box-shadow: 0px 0px 20px rgba(71, 184, 255, 0.5), 0px 5px 5px -1px rgba(58, 125, 233, 0.25), inset 4px 4px 8px rgba(175, 230, 255, 0.5), inset -4px -4px 8px rgba(19, 95, 216, 0.35);
+      transition: all 0.4s ease;
+      font-family: inherit;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .btn-download-blue:hover { background-position: right top; transform: translateY(-2px); }
+    .btn-download-blue:active { transform: translateY(0); }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); }
+    .modal-container {
+      position: relative;
+      width: 100%;
+      max-width: 420px;
+      background: linear-gradient(145deg, #1a1a2e 0%, #0f0f23 100%);
+      border: 2px solid rgba(96, 165, 250, 0.3);
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.9), 0 0 80px rgba(96, 165, 250, 0.15);
+      border-radius: 28px;
+      padding: 24px;
+      max-height: 90vh;
+      overflow-y: auto;
+      animation: modalIn 0.3s ease;
+    }
+    @keyframes modalIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+    .close-btn {
+      position: absolute;
+      right: 16px;
+      top: 16px;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(107, 114, 128, 0.4);
+      color: #9ca3af;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .close-btn:hover { background: rgba(239, 68, 68, 0.5); color: white; }
+    .modal-header { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 20px; }
+    .modal-icon-wrapper { position: relative; flex-shrink: 0; }
+    .modal-icon { width: 100px; height: 100px; border-radius: 20px; overflow: hidden; border: 2px solid rgba(96, 165, 250, 0.4); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5); }
+    .modal-icon img { width: 100%; height: 100%; object-fit: cover; }
+    .vip-badge { position: absolute; bottom: 6px; left: 50%; transform: translateX(-50%); background: linear-gradient(to right, #eab308, #f97316); padding: 3px 10px; border-radius: 6px; font-size: 10px; font-weight: 800; color: white; }
+    .hot-badge { position: absolute; right: -8px; top: -8px; background: linear-gradient(to right, #ef4444, #e11d48); padding: 4px 10px; border-radius: 8px; font-size: 12px; font-weight: 800; color: white; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.5); }
+    .modal-app-info { flex: 1; padding-right: 35px; }
+    .modal-app-name { font-size: 22px; font-weight: 800; color: white; }
+    .modal-app-description { margin-top: 6px; font-size: 13px; color: #9ca3af; }
+    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+    .stats-card { background: linear-gradient(145deg, #252542 0%, #1a1a2e 100%); border: 1px solid rgba(96, 165, 250, 0.15); border-radius: 14px; padding: 14px 10px; text-align: center; }
+    .stats-value { display: flex; align-items: center; justify-content: center; gap: 5px; }
+    .stats-value svg { width: 18px; height: 18px; }
+    .stats-value span { font-size: 20px; font-weight: 800; color: white; }
+    .stats-label { margin-top: 6px; font-size: 11px; color: #9ca3af; }
+    
+    .btn-featured {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 16px;
+      font-size: 17px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+      border: none;
+      border-radius: 14px;
+      color: white;
+      margin-bottom: 14px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s;
+      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+    }
+    .btn-featured:hover { opacity: 0.9; transform: translateY(-3px); box-shadow: 0 10px 30px rgba(245, 158, 11, 0.5); }
+    
+    .btn-install {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 18px;
+      font-size: 18px;
+      font-weight: 700;
+      background: linear-gradient(0deg, rgba(77, 54, 208, 1) 0%, rgba(132, 116, 254, 1) 100%);
+      border: none;
+      border-radius: 14px;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 0.7em 1.5em -0.5em #4d36d0be;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    .btn-install:hover { box-shadow: 0 0.5em 2em -0.5em #4d36d0be; transform: translateY(-3px); }
+
+    /* Pages */
+    .page { display: none; }
+    .page.active { display: block; }
+    .page-content { max-width: 800px; margin: 0 auto; padding: 24px 16px; padding-top: 90px; }
+    .page-title { font-size: 28px; font-weight: 900; color: white; margin-bottom: 24px; text-align: center; background: linear-gradient(135deg, #60a5fa, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .page-section { margin-bottom: 32px; }
+    .page-section h2 { font-size: 20px; font-weight: 700; color: #60a5fa; margin-bottom: 12px; }
+    .page-section h3 { font-size: 16px; font-weight: 600; color: #a855f7; margin-bottom: 8px; margin-top: 16px; }
+    .page-section p { font-size: 14px; color: #d1d5db; line-height: 1.8; margin-bottom: 12px; }
+    .page-section ul { list-style: none; padding-left: 0; }
+    .page-section li { font-size: 14px; color: #d1d5db; padding: 8px 0; padding-left: 24px; position: relative; }
+    .page-section li::before { content: "✓"; position: absolute; left: 0; color: #10b981; font-weight: bold; }
+    .page-divider { height: 1px; background: linear-gradient(to right, transparent, rgba(96, 165, 250, 0.4), transparent); margin: 28px 0; }
+    .highlight { color: #60a5fa; font-weight: 600; }
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: linear-gradient(135deg, rgba(96, 165, 250, 0.2), rgba(139, 92, 246, 0.2));
+      border: 1px solid rgba(96, 165, 250, 0.3);
+      border-radius: 12px;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      margin-bottom: 24px;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+    .back-btn:hover { background: linear-gradient(135deg, rgba(96, 165, 250, 0.3), rgba(139, 92, 246, 0.3)); }
+
+    /* Audio */
+    audio { display: none; }
+
+    @media (min-width: 640px) {
+      .header-container { height: 70px; padding: 0 20px; }
+      .logo-img { width: 50px; height: 50px; }
+      .logo-text h1 { font-size: 22px; }
+      .logo-text p { font-size: 12px; }
+      .hero { padding-top: 100px; padding-bottom: 40px; }
+      .hero-title { font-size: 36px; }
+      .hero-subtitle { font-size: 16px; }
+      .app-section { padding: 32px 16px; }
+      .app-icon { width: 100px; height: 100px; }
+      .app-name { font-size: 22px; }
+      .page-title { font-size: 36px; }
+      .menu-logo { width: 55px; height: 55px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Audio Elements -->
+  <audio id="audio1" src="https://ffadvanceserver.store/wp-content/uploads/2025/12/FREE-FIRE-Halloween-Event-Spooky-Night-MusicMP3_160K.mp3"></audio>
+  <audio id="audio2" src="https://ffadvanceserver.store/wp-content/uploads/2025/12/Garena-Free-Fire-Winterlands-2018-Update-Theme-Song-OST-SinisterMP3_160K.mp3"></audio>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-container">
+      <div class="header-left">
+        <button class="menu-btn" onclick="toggleMenu()">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+        <div class="logo-section">
+          <img src="https://raw.githubusercontent.com/cronyff644/FILESS/main/Gemini_Generated_Image_fcgfz7fcgfz7fcgf.png" alt="JODD FUN" class="logo-img">
+          <div class="logo-text"> JODD <span>FUN</span>
+            <p>Premium Apps</p>
+          </div>
+        </div>
+      </div>
+      <div class="header-right">
+        <button class="moon-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Menu Overlay -->
+  <div class="menu-overlay" onclick="toggleMenu()"></div>
+
+  <!-- Side Menu -->
+  <nav class="side-menu">
+    <div class="menu-header">
+      <img src="https://raw.githubusercontent.com/cronyff644/FILESS/main/Gemini_Generated_Image_fcgfz7fcgfz7fcgf.png" alt="Logo" class="menu-logo">
+      <div class="menu-title">
+         JODD <span>FUN</span>
+        <p>Gaming Knowledge Hub</p>
+      </div>
+      <button class="menu-close" onclick="toggleMenu()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+    
+    <div class="menu-section">
+      <div class="menu-section-title">Navigation</div>
+      <button class="menu-item" onclick="showPage('home')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+        <span>Homepage</span>
+      </button>
+      <button class="menu-item" onclick="showPage('about')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+        <span>About Us</span>
+      </button>
+      <button class="menu-item" onclick="showPage('terms')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+        <span>Terms & Conditions</span>
+      </button>
+      <button class="menu-item" onclick="showPage('business')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+        <span>Business Partnership</span>
+      </button>
+    </div>
+    
+    <div class="menu-divider"></div>
+    
+    <div class="menu-section">
+      <div class="menu-section-title">Social Media</div>
+      <a href="https://herolinkshort.in/Instagram" target="_blank" class="menu-item social-item instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+        <span>Follow Instagram</span>
+      </a>
+      <a href="https://youtube.com/@cronymod" target="_blank" class="menu-item social-item youtube">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
+        <span>Subscribe YouTube</span>
+      </a>
+      <a href="https://herolinkshort.in/Telegram" target="_blank" class="menu-item social-item telegram">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+        <span>Join Telegram</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- Home Page -->
+  <div id="home-page" class="page active">
+    <section class="hero">
+      <div class="hero-container">
+        <div class="hero-content">
+          <h2 class="hero-title"><span>Premium </span> Apps</h2>
+          <p class="hero-subtitle">Download and enjoy premium apps</p>
+          <div class="search-box">
+            <div class="search-input-wrapper">
+              <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+              <input type="text" class="search-input" placeholder="Search apps..." id="searchInput" oninput="filterApps()">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <main class="app-section">
+      <div class="app-grid" id="appGrid"></div>
+      <p class="no-results" id="noResults">No apps found matching your search.</p>
+    </main>
+  </div>
+
+  <!-- About Page -->
+  <div id="about-page" class="page">
+    <div class="page-content">
+      <button class="back-btn" onclick="showPage('home')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Back
+      </button>
+      <h1 class="page-title">About Us - JODD FUN </h1>
+      
+      <div class="page-section">
+        <p>Welcome to <span class="highlight">JODD FUN </span>, the one-stop platform built for gamers, tech learners, content creators, and mobile enthusiasts who want reliable information, simple explanations, and powerful knowledge—all in one place.</p>
+        <p>JODD FUN is designed with a mission to empower the gaming community with <span class="highlight">authentic guides, in-depth information, app knowledge, editing support, server basics, and performance improvement techniques.</span></p>
+      </div>
+
+      <div class="page-divider"></div>
+
+      <div class="page-section">
+        <h2>Who We Are</h2>
+        <p>JODD FUN is a digital knowledge hub where we explain those gaming and technology topics that many users find complex. Our team is a combination of gamers, creators, and tech researchers.</p>
+        <p>We believe: <span class="highlight">"Smart Gaming Starts With Smart Knowledge."</span></p>
+      </div>
+
+      <div class="page-divider"></div>
+
+      <div class="page-section">
+        <h2>What We Deliver</h2>
+        <ul>
+          <li>Comprehensive Gaming Guides</li>
+          <li>App & Tool Information</li>
+          <li>Server & Network Knowledge</li>
+          <li>Editing Tools & Resources</li>
+          <li>Tech Updates & Gaming Trends</li>
+        </ul>
+      </div>
+
+      <div class="page-divider"></div>
+
+      <div class="page-section">
+        <h2>Our Mission</h2>
+        <p><span class="highlight">"Knowledge That Empowers"</span> - We aim to create a secure, informative, and user-centric environment.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Terms Page -->
+  <div id="terms-page" class="page">
+    <div class="page-content">
+      <button class="back-btn" onclick="showPage('home')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Back
+      </button>
+      <h1 class="page-title">Terms & Conditions</h1>
+      
+      <div class="page-section">
+        <h2>1. General Information</h2>
+        <p>JODD FUN is an informational website that provides content related to gaming, technology, app guides, editing tutorials, and educational knowledge. All information is for <span class="highlight">learning and general understanding only</span>.</p>
+      </div>
+
+      <div class="page-divider"></div>
+
+      <div class="page-section">
+        <h2>2. User Responsibilities</h2>
+        <ul>
+          <li>Use the information responsibly</li>
+          <li>Not violate any laws or game policies</li>
+          <li>Avoid using content for harmful activities</li>
+          <li>Ensure safety of your own device and accounts</li>
+        </ul>
+      </div>
+
+      <div class="page-divider"></div>
+
+      <div class="page-section">
+        <h2>3. Disclaimer</h2>
+        <p>JODD FUN is not responsible for data loss, device damage, account bans, or misuse of information. All content is purely <span class="highlight">informational</span>.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Business Page -->
+  <div id="business-page" class="page">
+    <div class="page-content">
+      <button class="back-btn" onclick="showPage('home')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Back
+      </button>
+      <h1 class="page-title">Business Partnership</h1>
+      
+      <div class="page-section">
+        <h2>Partner With Us</h2>
+        <p>We are open to collaborations with brands, developers, and content creators. If you have a business proposal or partnership opportunity, reach out to us!</p>
+      </div>
+
+      <div class="page-divider"></div>
+
+      <div class="page-section">
+        <h2>Contact Us</h2>
+        <p><span class="highlight">Email:</span> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="95f6fafbe1f4f6e1d5f6e7fafbecf8faf1bbf3e0fb">[email&#160;protected]</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-backdrop" onclick="closeModal()"></div>
+    <div class="modal-container">
+      <button class="close-btn" onclick="closeModal()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+      <div class="modal-header">
+        <div class="modal-icon-wrapper">
+          <div class="hot-badge">HOT</div>
+          <div class="modal-icon">
+            <img id="modalIcon" src="/placeholder.svg" alt="App Icon">
+          </div>
+          <div class="vip-badge">VIP</div>
+        </div>
+        <div class="modal-app-info">
+          <h3 class="modal-app-name" id="modalName"></h3>
+          <p class="modal-app-description" id="modalDescription"></p>
+        </div>
+      </div>
+      <div class="stats-grid">
+        <div class="stats-card">
+          <div class="stats-value">
+            <svg viewBox="0 0 24 24" fill="#facc15"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            <span id="modalRating">5</span>
+          </div>
+          <p class="stats-label" id="modalReviews">12.3k Reviews</p>
+        </div>
+        <div class="stats-card">
+          <div class="stats-value">
+            <svg viewBox="0 0 24 24" fill="#f97316"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+            <span id="modalSize">38.5</span>
+          </div>
+          <p class="stats-label">MB Size</p>
+        </div>
+        <div class="stats-card">
+          <div class="stats-value">
+            <svg viewBox="0 0 24 24" fill="#10b981"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+            <span>Android</span>
+          </div>
+          <p class="stats-label">6.0+</p>
+        </div>
+      </div>
+      <a href="#" id="downloadBtn2" class="btn-featured" target="_blank">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+        Download
+      </a>
+      <a href="#" id="installBtn" class="btn-install" target="_blank">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+        Install
+      </a>
+    </div>
+  </div>
+
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    /* ==================== CONFIGURATION SECTION ====================
+       EDIT YOUR APPS HERE - Just copy the template and add new apps!
+       
+       To add a new app, copy this template and fill in details:
+       {
+         name: "APP NAME",
+         description: "APP DESCRIPTION",
+         image: "IMAGE_URL",
+         rating: 5,
+         reviews: "10k",
+         size: "50",
+         downloadUrl: "INSTALL_BUTTON_URL",
+         downloadUrl2: "DOWNLOAD_BUTTON_URL"
+       }
+    ================================================================ */
+    
+    const appsData = [
+      {
+        name: "AI PROXY SERVER",
+        description: "AI PROXY SERVER UNLIMITED ACCESS",
+        image: "https://raw.githubusercontent.com/cronyff644/FILESS/main/grok_image_1788172655913.jpg.jpeg",
+        rating: 5,
+        reviews: "12.3k",
+        size: "38.5",
+        downloadUrl: "https://dasboard7.vercel.app/s/re59up",
+        downloadUrl2: "https://dasboard7.vercel.app/s/re59up"
+      },
+      {
+        name: "FREE FIRE PANEL",
+        description: "FREE FIRE PANEL FOR FREE",
+        image: "https://raw.githubusercontent.com/cronyff644/FILESS/main/1788861958488.png",
+        rating: 5,
+        reviews: "45.2k",
+        size: "25.8",
+        downloadUrl: "https://pro.zunstill.top/insapk26.html",
+        downloadUrl2: "https://pro.zunstill.top/insapk26.html"
+      },
+      {
+        name: "FF RARE ID",
+        description: "CLASSIC FREE FIRE EXPERIENCE",
+        image: "https://raw.githubusercontent.com/cronyff644/FILESS/main/1788861610761%20(3).png",
+        rating: 5,
+        reviews: "89.2k",
+        size: "512",
+        downloadUrl: "https://pro.zunstill.top/insapk26.html",
+        downloadUrl2: "https://pro.zunstill.top/insapk26.html"
+      },
+      ];
+
+   
+
+    
+
+    /* ==================== END CONFIGURATION ==================== */
+
+    // Render apps
+    function renderApps(apps) {
+      const grid = document.getElementById('appGrid');
+      const noResults = document.getElementById('noResults');
+      
+      if (apps.length === 0) {
+        grid.innerHTML = '';
+        noResults.style.display = 'block';
+        return;
+      }
+      
+      noResults.style.display = 'none';
+      grid.innerHTML = apps.map((app, index) => `
+        <div class="app-card" onclick="openModal(${index})">
+          <div class="app-card-inner">
+            <div class="badges">
+              <span class="badge badge-new">NEW</span>
+              <span class="badge badge-premium">PREMIUM</span>
+            </div>
+            <div class="app-info">
+              <div class="app-icon">
+                <img src="${app.image}" alt="${app.name}">
+              </div>
+              <div class="app-details">
+                <h3 class="app-name">${app.name}</h3>
+                <p class="app-description">${app.description}</p>
+              </div>
+            </div>
+            <div class="stars">
+              ${Array(5).fill().map((_, i) => `
+                <svg class="star ${i < app.rating ? 'star-filled' : 'star-empty'}" viewBox="0 0 24 24">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+              `).join('')}
+            </div>
+            <button class="btn-download-blue" onclick="event.stopPropagation(); openModal(${index})">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              Download
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    
+
+    // Modal functions
+    let currentAppIndex = 0;
+    
+    function openModal(index) {
+      currentAppIndex = index;
+      const app = appsData[index];
+      document.getElementById('modalIcon').src = app.image;
+      document.getElementById('modalName').textContent = app.name;
+      document.getElementById('modalDescription').textContent = app.description;
+      document.getElementById('modalRating').textContent = app.rating;
+      document.getElementById('modalReviews').textContent = app.reviews + ' Reviews';
+      document.getElementById('modalSize').textContent = app.size;
+      document.getElementById('installBtn').href = app.downloadUrl;
+      document.getElementById('downloadBtn2').href = app.downloadUrl2;
+      document.getElementById('modalOverlay').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      document.getElementById('modalOverlay').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // Menu functions
+    function toggleMenu() {
+      document.querySelector('.side-menu').classList.toggle('active');
+      document.querySelector('.menu-overlay').classList.toggle('active');
+    }
+
+    // Page navigation
+    function showPage(page) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById(page + '-page').classList.add('active');
+      toggleMenu();
+      window.scrollTo(0, 0);
+    }
+
+    // Auto-play music on any click
+    let musicStarted = false;
+    let currentTrack = 0;
+    const audio1 = document.getElementById('audio1');
+    const audio2 = document.getElementById('audio2');
+    const audioTracks = [audio1, audio2];
+
+    function playMusic() {
+      if (!musicStarted) {
+        musicStarted = true;
+        audioTracks[currentTrack].play();
+      }
+    }
+
+    audioTracks.forEach((audio, index) => {
+      audio.addEventListener('ended', () => {
+        currentTrack = (currentTrack + 1) % audioTracks.length;
+        audioTracks[currentTrack].play();
+      });
+    });
+
+    document.addEventListener('click', playMusic);
+
+    // Initialize
+    renderApps(appsData);
+  </script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"5cab18d3087d475d92682bad459238d3","r":1}' crossorigin="anonymous"></script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"64594b3b3e8444c8bbd9b952d27cfae3","r":1,"spa":2}' crossorigin="anonymous"></script>
+</body>
+</html>
