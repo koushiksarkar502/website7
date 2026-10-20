@@ -1,103 +1,332 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Website Under Maintenance</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        body {
-            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #ffffff;
-            text-align: center;
-            padding: 20px;
-        }
+<title>Proxy - Download APK</title>
 
-        .container {
-            max-width: 600px;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 40px 30px;
-            border-radius: 16px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
+<meta name="description" content="Download the latest version of App for Android.">
 
-        .gear-icon {
-            font-size: 80px;
-            margin-bottom: 20px;
-            display: inline-block;
-            animation: spin 4s linear infinite;
-        }
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+:root {
+    --green: #22e875;
+    --dark: #050908;
+    --text: #ffffff;
+    --muted: #a1aca6;
+}
 
-        h1 {
-            font-size: 2.2rem;
-            margin-bottom: 15px;
-            color: #4facfe;
-        }
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px 18px;
+    overflow-x: hidden;
+    font-family: Arial, sans-serif;
+    color: var(--text);
 
-        p {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            color: #dcdcdc;
-            margin-bottom: 25px;
-        }
+    background:
+        radial-gradient(
+            circle at top left,
+            #064e3b 0%,
+            transparent 40%
+        ),
+        radial-gradient(
+            circle at bottom right,
+            #052e2b 0%,
+            transparent 38%
+        ),
+        var(--dark);
+}
 
-        .status-badge {
-            display: inline-block;
-            background-color: #ff9800;
-            color: #fff;
-            padding: 8px 18px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: bold;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
+/* BACKGROUND GLOW */
 
-        .footer-text {
-            margin-top: 30px;
-            font-size: 0.85rem;
-            color: #888;
-        }
+.glow {
+    position: fixed;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: #00ff6610;
+    filter: blur(65px);
+    pointer-events: none;
+}
 
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 1.7rem;
-            }
-            p {
-                font-size: 0.95rem;
-            }
-            .gear-icon {
-                font-size: 60px;
-            }
-        }
-    </style>
+.glow-one {
+    top: 10%;
+    left: -100px;
+}
+
+.glow-two {
+    bottom: 5%;
+    right: -100px;
+}
+
+/* MAIN CARD */
+
+.card {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 410px;
+    padding: 35px 24px;
+    text-align: center;
+
+    background: rgba(10, 16, 15, 0.88);
+    border: 1px solid #1b3d30;
+    border-radius: 28px;
+
+    box-shadow:
+        0 25px 80px rgba(0, 0, 0, 0.35),
+        0 0 40px rgba(34, 232, 117, 0.04);
+
+    backdrop-filter: blur(15px);
+}
+
+/* TOP LABEL */
+
+.tag {
+    color: #4ade80;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 4px;
+    margin-bottom: 28px;
+}
+
+/* APP PNG LOGO */
+
+.app-logo {
+    width: 110px;
+    height: 110px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto 25px;
+
+    border-radius: 25px;
+    border: 1px solid #286544;
+
+    background: linear-gradient(
+        145deg,
+        #123c27,
+        #07150e
+    );
+
+    box-shadow:
+        0 0 35px rgba(34, 197, 94, 0.12);
+}
+
+/* APP NAME */
+
+h1 {
+    font-size: 42px;
+    font-weight: 800;
+    margin-bottom: 12px;
+    letter-spacing: -1px;
+}
+
+h1 span {
+    color: var(--green);
+}
+
+/* SUBTITLE */
+
+.subtitle {
+    color: #a6b4aa;
+    font-size: 12px;
+    letter-spacing: 3px;
+    margin-bottom: 25px;
+}
+
+/* DESCRIPTION */
+
+.description {
+    max-width: 310px;
+    margin: 0 auto 30px;
+
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+/* FLOATING DOWNLOAD BUTTON */
+
+.download {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    width: 100%;
+    min-height: 62px;
+    padding: 18px 14px;
+
+    color: #04140a;
+    text-decoration: none;
+    text-align: center;
+
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+
+    border-radius: 16px;
+    border: 1px solid #86ffad;
+
+    background: linear-gradient(
+        135deg,
+        #52ff91,
+        #00c853
+    );
+
+    box-shadow:
+        0 8px 22px rgba(0, 255, 100, 0.22),
+        0 0 25px rgba(0, 255, 100, 0.12);
+
+    animation: floating 2.5s ease-in-out infinite;
+
+    transition:
+        box-shadow 0.3s ease,
+        background 0.3s ease;
+}
+
+/* FLOATING ANIMATION */
+
+@keyframes floating {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-7px);
+    }
+}
+
+/* HOVER EFFECT */
+
+.download:hover {
+    animation-play-state: paused;
+    transform: translateY(-5px) scale(1.02);
+
+    box-shadow:
+        0 14px 32px rgba(0, 255, 100, 0.35),
+        0 0 38px rgba(0, 255, 100, 0.20);
+}
+
+/* CLICK EFFECT */
+
+.download:active {
+    transform: scale(0.97);
+}
+
+/* FILE INFORMATION */
+
+.file-info {
+    margin-top: 17px;
+    color: #83938a;
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+/* FOOTER */
+
+.footer {
+    margin-top: 32px;
+    padding-top: 20px;
+
+    border-top: 1px solid #1b3027;
+
+    color: #718078;
+    font-size: 11px;
+    letter-spacing: 2px;
+}
+
+/* MOBILE RESPONSIVE */
+
+@media (max-width: 380px) {
+    .card {
+        padding: 30px 18px;
+    }
+
+    h1 {
+        font-size: 35px;
+    }
+
+    .app-logo {
+        width: 95px;
+        height: 95px;
+    }
+
+    .download {
+        font-size: 15px;
+    }
+}
+
+/* REDUCE MOTION ACCESSIBILITY */
+
+@media (prefers-reduced-motion: reduce) {
+    .download {
+        animation: none;
+        transition: none;
+    }
+}
+</style>
 </head>
+
 <body>
 
-    <div class="container">
-        <div class="gear-icon">⚙️</div>
-        <h1>We'll Be Back Soon!</h1>
-        <p>Our website is currently undergoing scheduled maintenance. We are performing system updates to improve your user experience.</p>
-        <div class="status-badge">Work in Progress</div>
-        <p class="footer-text">Thank you for your patience!</p>
+<div class="glow glow-one"></div>
+<div class="glow glow-two"></div>
+
+<main class="card">
+
+    <div class="tag">
+        Proxy Apk
     </div>
+
+    <!-- APNI PNG IMAGE KA LINK YA FILE NAME -->
+    <img
+        class="app-logo"
+        src="logo.png"
+        alt="MyApp Logo"
+    >
+
+    <!-- APP NAME -->
+    <h1>Proxy<span> Apk</span></h1>
+
+    <div class="subtitle">
+        FAST • SIMPLE • SECURE
+    </div>
+
+    <p class="description">
+        Download the latest version of our app
+        and enjoy a smoother experience.
+    </p>
+
+    <!-- APNA REAL APK DOWNLOAD LINK DALO -->
+    <a
+        href=""
+        class="download"
+    >
+        <span aria-hidden="true">↓</span>
+        <span>Download APK</span>
+    </a>
+
+    <div class="file-info">
+        Android Application<br>
+        Latest Version
+    </div>
+
+    <footer class="footer">
+        ANDROID APPLICATION
+    </footer>
+
+</main>
 
 </body>
 </html>
