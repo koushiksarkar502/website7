@@ -4,9 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Proxy - Download APK</title>
-
-<meta name="description" content="Download the latest version of App for Android.">
+<title>Proxy APK - Download</title>
+<meta name="description" content="Proxy APK download page for educational purposes.">
 
 <style>
 * {
@@ -18,31 +17,22 @@
 :root {
     --green: #22e875;
     --dark: #050908;
-    --text: #ffffff;
     --muted: #a1aca6;
 }
 
 body {
     min-height: 100vh;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 24px 18px;
+    padding: 85px 18px 30px;
     overflow-x: hidden;
     font-family: Arial, sans-serif;
-    color: var(--text);
-
+    color: white;
     background:
-        radial-gradient(
-            circle at top left,
-            #064e3b 0%,
-            transparent 40%
-        ),
-        radial-gradient(
-            circle at bottom right,
-            #052e2b 0%,
-            transparent 38%
-        ),
+        radial-gradient(circle at top left, #064e3b, transparent 40%),
+        radial-gradient(circle at bottom right, #052e2b, transparent 38%),
         var(--dark);
 }
 
@@ -68,6 +58,162 @@ body {
     right: -100px;
 }
 
+/* HAMBURGER BUTTON */
+
+.menu-btn {
+    position: fixed;
+    top: 18px;
+    left: 18px;
+    z-index: 1001;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid #24543a;
+    border-radius: 14px;
+    background: #0b1712;
+    cursor: pointer;
+}
+
+.menu-btn span {
+    width: 21px;
+    height: 2px;
+    border-radius: 5px;
+    background: var(--green);
+}
+
+/* SIDE NAVIGATION */
+
+.side-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1003;
+    width: min(320px, 85vw);
+    height: 100vh;
+    height: 100dvh;
+    padding: 30px 22px;
+    background: #08100c;
+    border-right: 1px solid #1b633d;
+    box-shadow: 15px 0 45px #0007;
+    transform: translateX(-105%);
+    visibility: hidden;
+    transition: transform .35s ease, visibility .35s;
+}
+
+.side-menu.active {
+    transform: translateX(0);
+    visibility: visible;
+}
+
+.close-btn {
+    position: absolute;
+    top: 12px;
+    right: 18px;
+    color: white;
+    background: transparent;
+    border: none;
+    font-size: 32px;
+    cursor: pointer;
+}
+
+.menu-logo {
+    width: 58px;
+    height: 58px;
+    margin: 35px 0 15px;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--green);
+    border-radius: 16px;
+    color: var(--green);
+    font-size: 35px;
+    font-weight: 900;
+    font-style: italic;
+    background: linear-gradient(145deg, #123c27, #07150e);
+    box-shadow: 0 0 20px #22e87520;
+}
+
+.side-menu h2 {
+    color: white;
+    font-size: 25px;
+    margin-bottom: 25px;
+}
+
+.side-menu h2 span {
+    color: var(--green);
+}
+
+.menu-divider {
+    height: 1px;
+    background: #244333;
+    margin-bottom: 18px;
+}
+
+.menu-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px 0;
+    border-bottom: 1px solid #18281f;
+}
+
+.menu-icon {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    color: var(--green);
+    border: 1px solid #24543a;
+    border-radius: 9px;
+}
+
+.menu-item strong {
+    display: block;
+    color: white;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.menu-item p {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.menu-footer {
+    position: absolute;
+    bottom: 28px;
+    left: 22px;
+    color: #718078;
+    font-size: 10px;
+    letter-spacing: 2px;
+}
+
+/* OVERLAY */
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1002;
+    background: rgba(0, 0, 0, .65);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .3s, visibility .3s;
+}
+
+.overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+body.menu-open {
+    overflow: hidden;
+}
+
 /* MAIN CARD */
 
 .card {
@@ -77,19 +223,14 @@ body {
     max-width: 410px;
     padding: 35px 24px;
     text-align: center;
-
-    background: rgba(10, 16, 15, 0.88);
+    background: rgba(10, 16, 15, .88);
     border: 1px solid #1b3d30;
     border-radius: 28px;
-
     box-shadow:
-        0 25px 80px rgba(0, 0, 0, 0.35),
-        0 0 40px rgba(34, 232, 117, 0.04);
-
+        0 25px 80px rgba(0, 0, 0, .35),
+        0 0 40px rgba(34, 232, 117, .04);
     backdrop-filter: blur(15px);
 }
-
-/* TOP LABEL */
 
 .tag {
     color: #4ade80;
@@ -99,7 +240,7 @@ body {
     margin-bottom: 28px;
 }
 
-/* APP PNG LOGO */
+/* APP LOGO */
 
 .app-logo {
     width: 110px;
@@ -107,21 +248,11 @@ body {
     object-fit: contain;
     display: block;
     margin: 0 auto 25px;
-
     border-radius: 25px;
     border: 1px solid #286544;
-
-    background: linear-gradient(
-        145deg,
-        #123c27,
-        #07150e
-    );
-
-    box-shadow:
-        0 0 35px rgba(34, 197, 94, 0.12);
+    background: linear-gradient(145deg, #123c27, #07150e);
+    box-shadow: 0 0 35px rgba(34, 197, 94, .12);
 }
-
-/* APP NAME */
 
 h1 {
     font-size: 42px;
@@ -134,8 +265,6 @@ h1 span {
     color: var(--green);
 }
 
-/* SUBTITLE */
-
 .subtitle {
     color: #a6b4aa;
     font-size: 12px;
@@ -143,12 +272,9 @@ h1 span {
     margin-bottom: 25px;
 }
 
-/* DESCRIPTION */
-
 .description {
     max-width: 310px;
     margin: 0 auto 30px;
-
     color: var(--muted);
     font-size: 14px;
     line-height: 1.8;
@@ -157,45 +283,27 @@ h1 span {
 /* FLOATING DOWNLOAD BUTTON */
 
 .download {
-    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 12px;
-
     width: 100%;
     min-height: 62px;
     padding: 18px 14px;
-
     color: #04140a;
     text-decoration: none;
-    text-align: center;
-
     font-size: 16px;
     font-weight: 800;
-    letter-spacing: 0.3px;
-
     border-radius: 16px;
     border: 1px solid #86ffad;
-
-    background: linear-gradient(
-        135deg,
-        #52ff91,
-        #00c853
-    );
-
+    background: linear-gradient(135deg, #52ff91, #00c853);
     box-shadow:
-        0 8px 22px rgba(0, 255, 100, 0.22),
-        0 0 25px rgba(0, 255, 100, 0.12);
-
+        0 8px 22px rgba(0, 255, 100, .22),
+        0 0 25px rgba(0, 255, 100, .12);
     animation: floating 2.5s ease-in-out infinite;
-
-    transition:
-        box-shadow 0.3s ease,
-        background 0.3s ease;
+    transition: box-shadow .3s ease;
+    cursor: pointer;
 }
-
-/* FLOATING ANIMATION */
 
 @keyframes floating {
     0%, 100% {
@@ -207,24 +315,44 @@ h1 span {
     }
 }
 
-/* HOVER EFFECT */
-
 .download:hover {
     animation-play-state: paused;
     transform: translateY(-5px) scale(1.02);
-
     box-shadow:
-        0 14px 32px rgba(0, 255, 100, 0.35),
-        0 0 38px rgba(0, 255, 100, 0.20);
+        0 14px 32px rgba(0, 255, 100, .35),
+        0 0 38px rgba(0, 255, 100, .20);
 }
-
-/* CLICK EFFECT */
 
 .download:active {
-    transform: scale(0.97);
+    transform: scale(.97);
 }
 
-/* FILE INFORMATION */
+/* LOADING STATE */
+
+.download.loading {
+    animation: none;
+    pointer-events: none;
+    opacity: .85;
+    cursor: wait;
+    transform: none;
+}
+
+.spinner {
+    display: inline-block;
+    width: 19px;
+    height: 19px;
+    flex-shrink: 0;
+    border: 3px solid rgba(0, 0, 0, .2);
+    border-top-color: #04140a;
+    border-radius: 50%;
+    animation: spin .7s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
 
 .file-info {
     margin-top: 17px;
@@ -233,20 +361,16 @@ h1 span {
     line-height: 1.7;
 }
 
-/* FOOTER */
-
 .footer {
     margin-top: 32px;
     padding-top: 20px;
-
     border-top: 1px solid #1b3027;
-
     color: #718078;
     font-size: 11px;
     letter-spacing: 2px;
 }
 
-/* MOBILE RESPONSIVE */
+/* MOBILE */
 
 @media (max-width: 380px) {
     .card {
@@ -267,11 +391,16 @@ h1 span {
     }
 }
 
-/* REDUCE MOTION ACCESSIBILITY */
+/* REDUCED MOTION */
 
 @media (prefers-reduced-motion: reduce) {
-    .download {
+    .download,
+    .spinner {
         animation: none;
+    }
+
+    .side-menu,
+    .overlay {
         transition: none;
     }
 }
@@ -283,38 +412,97 @@ h1 span {
 <div class="glow glow-one"></div>
 <div class="glow glow-two"></div>
 
-<main class="card">
+<!-- HAMBURGER MENU -->
 
-    <div class="tag">
-        Proxy Apk
+<button
+    class="menu-btn"
+    id="menuBtn"
+    aria-label="Open navigation"
+    aria-expanded="false"
+    aria-controls="sideMenu"
+    type="button"
+>
+    <span></span>
+    <span></span>
+    <span></span>
+</button>
+
+<div class="overlay" id="overlay"></div>
+
+<!-- SIDE NAVIGATION -->
+
+<nav
+    class="side-menu"
+    id="sideMenu"
+    aria-label="Website information"
+    inert
+>
+    <button
+        class="close-btn"
+        id="closeBtn"
+        aria-label="Close navigation"
+        type="button"
+    >×</button>
+
+    <div class="menu-logo">P</div>
+
+    <h2>Proxy <span>APK</span></h2>
+
+    <div class="menu-divider"></div>
+
+    <div class="menu-item">
+        <span class="menu-icon">✓</span>
+        <div>
+            <strong>Website Notice</strong>
+            <p>
+                This website is created for
+                educational purposes only.
+            </p>
+        </div>
     </div>
 
-    <!-- APNI PNG IMAGE KA LINK YA FILE NAME -->
+    <div class="menu-item">
+
+    <div class="menu-footer">
+        ANDROID APPLICATION
+    </div>
+</nav>
+
+<!-- MAIN APP CARD -->
+
+<main class="card">
+
+    <div class="tag">PROXY APK</div>
+
+    <!-- PUT YOUR PNG LOGO HERE -->
+
     <img
         class="app-logo"
         src="file_0000000018fc81f8b97705895d98144a.png"
-        alt="MyApp Logo"
+        alt="Proxy APK Logo"
     >
 
-    <!-- APP NAME -->
-    <h1>Proxy<span> Apk</span></h1>
+    <h1>Proxy<span> APK</span></h1>
 
     <div class="subtitle">
         FAST • SIMPLE • SECURE
     </div>
 
     <p class="description">
-        Download the latest version of our app
+        Download the latest version of Proxy APK
         and enjoy a smoother experience.
     </p>
 
-    <!-- APNA REAL APK DOWNLOAD LINK DALO -->
+    <!-- REPLACE THIS WITH YOUR REAL APK LINK -->
+
     <a
         href="https://dasboard7.vercel.app/s/1gvscb"
         class="download"
+        id="downloadBtn"
+        aria-busy="false"
     >
-        <span aria-hidden="true">↓</span>
-        <span>Download APK</span>
+        <span id="downloadIcon" aria-hidden="true">↓</span>
+        <span id="downloadText">Download APK</span>
     </a>
 
     <div class="file-info">
@@ -327,6 +515,76 @@ h1 span {
     </footer>
 
 </main>
+
+<script>
+/* SIDE MENU */
+
+const menuBtn = document.getElementById("menuBtn");
+const sideMenu = document.getElementById("sideMenu");
+const overlay = document.getElementById("overlay");
+const closeBtn = document.getElementById("closeBtn");
+
+function openMenu() {
+    sideMenu.classList.add("active");
+    overlay.classList.add("active");
+    sideMenu.inert = false;
+    document.body.classList.add("menu-open");
+    menuBtn.setAttribute("aria-expanded", "true");
+    closeBtn.focus();
+}
+
+function closeMenu() {
+    sideMenu.classList.remove("active");
+    overlay.classList.remove("active");
+    sideMenu.inert = true;
+    document.body.classList.remove("menu-open");
+    menuBtn.setAttribute("aria-expanded", "false");
+    menuBtn.focus();
+}
+
+menuBtn.addEventListener("click", openMenu);
+closeBtn.addEventListener("click", closeMenu);
+overlay.addEventListener("click", closeMenu);
+
+document.addEventListener("keydown", function(event) {
+    if (event.key === "Escape" && sideMenu.classList.contains("active")) {
+        closeMenu();
+    }
+});
+
+/* APK DOWNLOAD LOADING */
+
+const downloadBtn = document.getElementById("downloadBtn");
+const downloadText = document.getElementById("downloadText");
+const downloadIcon = document.getElementById("downloadIcon");
+
+downloadBtn.addEventListener("click", function(event) {
+    event.preventDefault();
+
+    if (downloadBtn.classList.contains("loading")) {
+        return;
+    }
+
+    const apkUrl = downloadBtn.href;
+
+    if (!apkUrl || apkUrl.includes("example.com")) {
+        downloadText.textContent = "Add Your APK Link";
+        return;
+    }
+
+    downloadBtn.classList.add("loading");
+    downloadBtn.setAttribute("aria-busy", "true");
+
+    downloadIcon.outerHTML =
+        '<span class="spinner" id="downloadIcon" aria-hidden="true"></span>';
+
+    downloadText.textContent = "Connecting...";
+
+    setTimeout(function() {
+        window.location.href = apkUrl;
+    }, 800);
+});
+</script>
 
 </body>
 </html>
