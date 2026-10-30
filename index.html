@@ -3,588 +3,523 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#170d29">
+<title>JODD FUN | Apps Zone</title>
 
-<title>Proxy APK - Download</title>
-<meta name="description" content="Proxy APK download page for educational purposes.">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+:root {
+  --bg: #10091d;
+  --panel: #211332;
+  --purple: #a855f7;
+  --pink: #ff4fa3;
+  --orange: #ff9b45;
+  --white: #fff;
+  --muted: #c2b2d4;
 }
 
-:root {
-    --green: #22e875;
-    --dark: #050908;
-    --muted: #a1aca6;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 85px 18px 30px;
-    overflow-x: hidden;
-    font-family: Arial, sans-serif;
-    color: white;
-    background:
-        radial-gradient(circle at top left, #064e3b, transparent 40%),
-        radial-gradient(circle at bottom right, #052e2b, transparent 38%),
-        var(--dark);
+  background:
+    radial-gradient(circle at 10% 5%, #8b36c530, transparent 35%),
+    radial-gradient(circle at 90% 40%, #ff4fa31b, transparent 35%),
+    var(--bg);
+  color: var(--white);
+  font-family: 'Outfit', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
-/* BACKGROUND GLOW */
-
-.glow {
-    position: fixed;
-    width: 220px;
-    height: 220px;
-    border-radius: 50%;
-    background: #00ff6610;
-    filter: blur(65px);
-    pointer-events: none;
+a {
+  text-decoration: none;
+  color: inherit;
 }
 
-.glow-one {
-    top: 10%;
-    left: -100px;
+/* HEADER */
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  padding: 14px 6%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #170d29eF;
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid #ffffff12;
 }
 
-.glow-two {
-    bottom: 5%;
-    right: -100px;
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 23px;
+  font-weight: 800;
+  letter-spacing: 1px;
 }
 
-/* HAMBURGER BUTTON */
+.brand img {
+  width: 45px;
+  height: 45px;
+  border-radius: 13px;
+  object-fit: cover;
+}
+
+.brand span {
+  color: var(--pink);
+}
 
 .menu-btn {
-    position: fixed;
-    top: 18px;
-    left: 18px;
-    z-index: 1001;
-    width: 48px;
-    height: 48px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 6px;
-    border: 1px solid #24543a;
-    border-radius: 14px;
-    background: #0b1712;
-    cursor: pointer;
+  width: 43px;
+  height: 43px;
+  border: 1px solid #a855f755;
+  background: #ffffff0a;
+  color: white;
+  border-radius: 13px;
+  font-size: 22px;
+  cursor: pointer;
 }
 
-.menu-btn span {
-    width: 21px;
-    height: 2px;
-    border-radius: 5px;
-    background: var(--green);
+.menu {
+  display: none;
+  position: fixed;
+  top: 76px;
+  right: 6%;
+  width: 200px;
+  padding: 12px;
+  border: 1px solid #a855f766;
+  border-radius: 16px;
+  background: #211332;
+  box-shadow: 0 15px 40px #0008;
+  z-index: 30;
 }
 
-/* SIDE NAVIGATION */
-
-.side-menu {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1003;
-    width: min(320px, 85vw);
-    height: 100vh;
-    height: 100dvh;
-    padding: 30px 22px;
-    background: #08100c;
-    border-right: 1px solid #1b633d;
-    box-shadow: 15px 0 45px #0007;
-    transform: translateX(-105%);
-    visibility: hidden;
-    transition: transform .35s ease, visibility .35s;
+.menu.open {
+  display: grid;
+  gap: 5px;
 }
 
-.side-menu.active {
-    transform: translateX(0);
-    visibility: visible;
+.menu a {
+  padding: 12px;
+  border-radius: 9px;
+  font-size: 17px;
 }
 
-.close-btn {
-    position: absolute;
-    top: 12px;
-    right: 18px;
-    color: white;
-    background: transparent;
-    border: none;
-    font-size: 32px;
-    cursor: pointer;
+.menu a:hover {
+  background: #a855f722;
+  color: #ff79b9;
 }
 
-.menu-logo {
-    width: 58px;
-    height: 58px;
-    margin: 35px 0 15px;
-    display: grid;
-    place-items: center;
-    border: 1px solid var(--green);
-    border-radius: 16px;
-    color: var(--green);
-    font-size: 35px;
-    font-weight: 900;
-    font-style: italic;
-    background: linear-gradient(145deg, #123c27, #07150e);
-    box-shadow: 0 0 20px #22e87520;
+/* HERO */
+
+.hero {
+  padding: 65px 20px 45px;
+  text-align: center;
 }
 
-.side-menu h2 {
-    color: white;
-    font-size: 25px;
-    margin-bottom: 25px;
+.hero-logo {
+  width: 125px;
+  height: 125px;
+  object-fit: cover;
+  border-radius: 28px;
+  border: 2px solid #ff70b5;
+  box-shadow: 0 0 35px #ff4fa344;
+  margin-bottom: 24px;
 }
 
-.side-menu h2 span {
-    color: var(--green);
+.pill {
+  display: inline-block;
+  padding: 8px 17px;
+  border: 1px solid #ff4fa366;
+  border-radius: 50px;
+  background: #ff4fa315;
+  color: #ff8bc1;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 18px;
 }
 
-.menu-divider {
-    height: 1px;
-    background: #244333;
-    margin-bottom: 18px;
+.hero h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(36px, 8vw, 62px);
+  font-weight: 900;
+  line-height: 1.15;
+  margin-bottom: 15px;
 }
 
-.menu-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    padding: 16px 0;
-    border-bottom: 1px solid #18281f;
+.hero h1 span {
+  background: linear-gradient(90deg, #c084fc, #ff65a8, #ffae57);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
-.menu-icon {
-    width: 28px;
-    height: 28px;
-    flex-shrink: 0;
-    display: grid;
-    place-items: center;
-    color: var(--green);
-    border: 1px solid #24543a;
-    border-radius: 9px;
+.hero p {
+  color: var(--muted);
+  font-size: 18px;
+  max-width: 470px;
+  margin: auto;
+  line-height: 1.6;
 }
 
-.menu-item strong {
-    display: block;
-    color: white;
-    font-size: 14px;
-    margin-bottom: 8px;
+/* APP SECTION */
+
+.section-heading {
+  text-align: center;
+  margin: 15px 0 27px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 23px;
 }
 
-.menu-item p {
-    color: var(--muted);
-    font-size: 12px;
-    line-height: 1.7;
+.section-heading span {
+  color: var(--pink);
 }
 
-.menu-footer {
-    position: absolute;
-    bottom: 28px;
-    left: 22px;
-    color: #718078;
-    font-size: 10px;
-    letter-spacing: 2px;
+.apps {
+  width: min(100% - 32px, 570px);
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
 }
 
-/* OVERLAY */
-
-.overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 1002;
-    background: rgba(0, 0, 0, .65);
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity .3s, visibility .3s;
+.app-card {
+  position: relative;
+  overflow: hidden;
+  padding: 23px;
+  border-radius: 23px;
+  border: 1px solid #a855f744;
+  background: linear-gradient(145deg, #29183e, #171024);
+  box-shadow: 0 12px 35px #0004;
+  transition: .25s;
 }
 
-.overlay.active {
-    opacity: 1;
-    visibility: visible;
+.app-card:hover {
+  transform: translateY(-5px);
+  border-color: #ff65a8;
+  box-shadow: 0 12px 35px #ff4fa322;
 }
 
-body.menu-open {
-    overflow: hidden;
+.app-card::after {
+  content: "";
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  right: -70px;
+  top: -70px;
+  background: #ff4fa322;
+  filter: blur(45px);
+  pointer-events: none;
 }
 
-/* MAIN CARD */
-
-.card {
-    position: relative;
-    z-index: 1;
-    width: 100%;
-    max-width: 410px;
-    padding: 35px 24px;
-    text-align: center;
-    background: rgba(10, 16, 15, .88);
-    border: 1px solid #1b3d30;
-    border-radius: 28px;
-    box-shadow:
-        0 25px 80px rgba(0, 0, 0, .35),
-        0 0 40px rgba(34, 232, 117, .04);
-    backdrop-filter: blur(15px);
+.app-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 17px;
 }
-
-.tag {
-    color: #4ade80;
-    font-size: 12px;
-    font-weight: bold;
-    letter-spacing: 4px;
-    margin-bottom: 28px;
-}
-
-/* APP LOGO */
 
 .app-logo {
-    width: 110px;
-    height: 110px;
-    object-fit: contain;
-    display: block;
-    margin: 0 auto 25px;
-    border-radius: 25px;
-    border: 1px solid #286544;
-    background: linear-gradient(145deg, #123c27, #07150e);
-    box-shadow: 0 0 35px rgba(34, 197, 94, .12);
+  width: 75px;
+  height: 75px;
+  border-radius: 18px;
+  object-fit: cover;
+  background: #ffffff10;
+  border: 1px solid #ffffff30;
 }
 
-h1 {
-    font-size: 42px;
-    font-weight: 800;
-    margin-bottom: 12px;
-    letter-spacing: -1px;
+.app-name {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 5px;
 }
 
-h1 span {
-    color: var(--green);
+.version {
+  color: #c7afd9;
+  font-size: 15px;
 }
 
-.subtitle {
-    color: #a6b4aa;
-    font-size: 12px;
-    letter-spacing: 3px;
-    margin-bottom: 25px;
+.app-desc {
+  color: #cbbbd9;
+  font-size: 17px;
+  line-height: 1.5;
+  margin-bottom: 20px;
 }
 
-.description {
-    max-width: 310px;
-    margin: 0 auto 30px;
-    color: var(--muted);
-    font-size: 14px;
-    line-height: 1.8;
+/* GREEN INSTALL BUTTON */
+
+.install {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 54px;
+  border-radius: 50px;
+  background: linear-gradient(100deg, #009d49, #00db72);
+  border: 1px solid #85ffbd;
+  box-shadow: 0 5px 22px #00db7240;
+  color: white;
+  font-size: 18px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: .2s;
 }
 
-/* FLOATING DOWNLOAD BUTTON */
-
-.download {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    width: 100%;
-    min-height: 62px;
-    padding: 18px 14px;
-    color: #04140a;
-    text-decoration: none;
-    font-size: 16px;
-    font-weight: 800;
-    border-radius: 16px;
-    border: 1px solid #86ffad;
-    background: linear-gradient(135deg, #52ff91, #00c853);
-    box-shadow:
-        0 8px 22px rgba(0, 255, 100, .22),
-        0 0 25px rgba(0, 255, 100, .12);
-    animation: floating 2.5s ease-in-out infinite;
-    transition: box-shadow .3s ease;
-    cursor: pointer;
+.install:hover {
+  background: linear-gradient(100deg, #00b858, #43f99b);
+  transform: translateY(-2px);
+  box-shadow: 0 7px 28px #00db7270;
 }
 
-@keyframes floating {
-    0%, 100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-7px);
-    }
+.install:active {
+  transform: scale(.98);
 }
 
-.download:hover {
-    animation-play-state: paused;
-    transform: translateY(-5px) scale(1.02);
-    box-shadow:
-        0 14px 32px rgba(0, 255, 100, .35),
-        0 0 38px rgba(0, 255, 100, .20);
+/* ABOUT */
+
+.about {
+  width: min(100% - 32px, 570px);
+  margin: 35px auto 50px;
+  padding: 22px;
+  text-align: center;
+  background: #ffffff08;
+  border: 1px solid #ffffff18;
+  border-radius: 18px;
 }
 
-.download:active {
-    transform: scale(.97);
+.about h3 {
+  color: #ff78b8;
+  margin-bottom: 10px;
 }
 
-/* LOADING STATE */
+.about p {
+  color: var(--muted);
+  line-height: 1.6;
+  font-size: 16px;
+}
 
-.download.loading {
-    animation: none;
-    pointer-events: none;
-    opacity: .85;
-    cursor: wait;
-    transform: none;
+/* FOOTER */
+
+footer {
+  border-top: 1px solid #ffffff15;
+  padding: 27px 15px;
+  text-align: center;
+  color: #bdaacb;
+  font-size: 15px;
+}
+
+footer strong {
+  color: #ff65a8;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+/* LOADING */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: #0c0716dd;
+  backdrop-filter: blur(9px);
+  z-index: 100;
+}
+
+.overlay.show {
+  display: flex;
+}
+
+.loader-box {
+  width: min(85%, 300px);
+  padding: 30px 20px;
+  text-align: center;
+  border: 1px solid #ff65a877;
+  border-radius: 22px;
+  background: #211332;
 }
 
 .spinner {
-    display: inline-block;
-    width: 19px;
-    height: 19px;
-    flex-shrink: 0;
-    border: 3px solid rgba(0, 0, 0, .2);
-    border-top-color: #04140a;
-    border-radius: 50%;
-    animation: spin .7s linear infinite;
+  width: 45px;
+  height: 45px;
+  margin: 0 auto 18px;
+  border: 4px solid #ffffff20;
+  border-top-color: #ff65a8;
+  border-radius: 50%;
+  animation: spin .8s linear infinite;
+}
+
+.loader-box h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  margin-bottom: 8px;
+}
+
+.loader-box p {
+  color: var(--muted);
 }
 
 @keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
+  to { transform: rotate(360deg); }
 }
 
-.file-info {
-    margin-top: 17px;
-    color: #83938a;
-    font-size: 12px;
-    line-height: 1.7;
-}
-
-.footer {
-    margin-top: 32px;
-    padding-top: 20px;
-    border-top: 1px solid #1b3027;
-    color: #718078;
-    font-size: 11px;
-    letter-spacing: 2px;
-}
-
-/* MOBILE */
-
-@media (max-width: 380px) {
-    .card {
-        padding: 30px 18px;
-    }
-
-    h1 {
-        font-size: 35px;
-    }
-
-    .app-logo {
-        width: 95px;
-        height: 95px;
-    }
-
-    .download {
-        font-size: 15px;
-    }
-}
-
-/* REDUCED MOTION */
-
-@media (prefers-reduced-motion: reduce) {
-    .download,
-    .spinner {
-        animation: none;
-    }
-
-    .side-menu,
-    .overlay {
-        transition: none;
-    }
+@media(max-width: 400px) {
+  .app-card { padding: 18px; }
+  .app-logo { width: 65px; height: 65px; }
+  .app-name { font-size: 21px; }
 }
 </style>
 </head>
 
 <body>
 
-<div class="glow glow-one"></div>
-<div class="glow glow-two"></div>
+<header>
+  <a href="#" class="brand">
+    <img src="https://raw.githubusercontent.com/koushiksarkar502/website7/main/WhatsApp%20Image%202026-10-30%20at%206.16.03%20PM.jpeg" alt="JODD FUN Logo">
+    JODD <span>FUN</span>
+  </a>
 
-<!-- HAMBURGER MENU -->
+  <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">☰</button>
+</header>
 
-<button
-    class="menu-btn"
-    id="menuBtn"
-    aria-label="Open navigation"
-    aria-expanded="false"
-    aria-controls="sideMenu"
-    type="button"
->
-    <span></span>
-    <span></span>
-    <span></span>
-</button>
-
-<div class="overlay" id="overlay"></div>
-
-<!-- SIDE NAVIGATION -->
-
-<nav
-    class="side-menu"
-    id="sideMenu"
-    aria-label="Website information"
-    inert
->
-    <button
-        class="close-btn"
-        id="closeBtn"
-        aria-label="Close navigation"
-        type="button"
-    >×</button>
-
-    <div class="menu-logo">P</div>
-
-    <h2>Proxy <span>APK</span></h2>
-
-    <div class="menu-divider"></div>
-
-    <div class="menu-item">
-        <span class="menu-icon">✓</span>
-        <div>
-            <strong>Website Notice</strong>
-            <p>
-                This website is created for
-                educational purposes only.
-            </p>
-        </div>
-    </div>
-
-    <div class="menu-item">
-
-    <div class="menu-footer">
-        ANDROID APPLICATION
-    </div>
+<nav class="menu" id="menu">
+  <a href="#">🏠 Home</a>
+  <a href="#apps">📱 All Apps</a>
+  <a href="#about">✨ About Us</a>
 </nav>
 
-<!-- MAIN APP CARD -->
+<main>
 
-<main class="card">
+<section class="hero">
+  <img class="hero-logo"
+       src="https://raw.githubusercontent.com/koushiksarkar502/website7/main/WhatsApp%20Image%202026-10-30%20at%206.16.03%20PM.jpeg"
+       alt="JODD FUN Logo">
 
-    <div class="tag">PROXY APK</div>
+  <div class="pill">✨ WELCOME TO JODD FUN</div>
 
-    <!-- PUT YOUR PNG LOGO HERE -->
+  <h1>YOUR FUN<br><span>STARTS HERE!</span></h1>
 
-    <img
-        class="app-logo"
-        src="file_0000000018fc81f8b97705895d98144a.png"
-        alt="Proxy APK Logo"
-    >
+  <p>Explore your favourite apps, discover something new and enjoy the experience with JODD FUN.</p>
+</section>
 
-    <h1>Proxy<span> APK</span></h1>
+<h2 class="section-heading" id="apps">
+  OUR <span>APPLICATIONS</span>
+</h2>
 
-    <div class="subtitle">
-        FAST • SIMPLE • SECURE
+<section class="apps">
+
+  <article class="app-card">
+    <div class="app-info">
+      <img class="app-logo" src="" alt="Proxy App Logo">
+      <div>
+        <h3 class="app-name">Proxy App</h3>
+        <p class="version">Version 1.0.0</p>
+      </div>
     </div>
-
-    <p class="description">
-        Download the latest version of Proxy APK
-        and enjoy a smoother experience.
-    </p>
-
-    <!-- REPLACE THIS WITH YOUR REAL APK LINK -->
-
-    <a
-        href="https://dasboard7.vercel.app/s/1gvscb"
-        class="download"
-        id="downloadBtn"
-        aria-busy="false"
-    >
-        <span id="downloadIcon" aria-hidden="true">↓</span>
-        <span id="downloadText">Download APK</span>
+    <p class="app-desc">Explore the Proxy App. Tap below to visit its download page.</p>
+    <a class="install" href="https://dasboard7.vercel.app/s/1gvscb">
+      ⬇ Install Now
     </a>
+  </article>
 
-    <div class="file-info">
-        Android Application<br>
-        Latest Version
+  <article class="app-card">
+    <div class="app-info">
+      <img class="app-logo" src="logo2.png" alt="Second App Logo">
+      <div>
+        <h3 class="app-name">Second App</h3>
+        <p class="version">Version 1.0.0</p>
+      </div>
     </div>
+    <p class="app-desc">Discover the Second App. Tap below to visit its download page.</p>
+    <a class="install" href="https://dasboard7.vercel.app/s/1gvscb">
+      ⬇ Install Now
+    </a>
+  </article>
 
-    <footer class="footer">
-        ANDROID APPLICATION
-    </footer>
+  <article class="app-card">
+    <div class="app-info">
+      <img class="app-logo" src="logo3.png" alt="Third App Logo">
+      <div>
+        <h3 class="app-name">Third App</h3>
+        <p class="version">Version 1.0.0</p>
+      </div>
+    </div>
+    <p class="app-desc">Explore the Third App. Tap below to visit its download page.</p>
+    <a class="install" href="https://dasboard7.vercel.app/s/1gvscb">
+      ⬇ Install Now
+    </a>
+  </article>
+
+</section>
+
+<section class="about" id="about">
+  <h3>💜 About JODD FUN</h3>
+  <p>JODD FUN is your place to explore apps in a fun and colourful experience. Thanks for visiting!</p>
+</section>
 
 </main>
 
+<footer>
+  <p>Made with 💜 by <strong>JODD FUN</strong></p>
+  <p>© <span id="year"></span> JODD FUN. All rights reserved.</p>
+</footer>
+
+<div class="overlay" id="overlay" role="status" aria-live="polite">
+  <div class="loader-box">
+    <div class="spinner"></div>
+    <h3>OPENING LINK...</h3>
+    <p>Please wait a moment</p>
+  </div>
+</div>
+
 <script>
-/* SIDE MENU */
+const menuBtn = document.getElementById('menuBtn');
+const menu = document.getElementById('menu');
+const overlay = document.getElementById('overlay');
 
-const menuBtn = document.getElementById("menuBtn");
-const sideMenu = document.getElementById("sideMenu");
-const overlay = document.getElementById("overlay");
-const closeBtn = document.getElementById("closeBtn");
-
-function openMenu() {
-    sideMenu.classList.add("active");
-    overlay.classList.add("active");
-    sideMenu.inert = false;
-    document.body.classList.add("menu-open");
-    menuBtn.setAttribute("aria-expanded", "true");
-    closeBtn.focus();
-}
-
-function closeMenu() {
-    sideMenu.classList.remove("active");
-    overlay.classList.remove("active");
-    sideMenu.inert = true;
-    document.body.classList.remove("menu-open");
-    menuBtn.setAttribute("aria-expanded", "false");
-    menuBtn.focus();
-}
-
-menuBtn.addEventListener("click", openMenu);
-closeBtn.addEventListener("click", closeMenu);
-overlay.addEventListener("click", closeMenu);
-
-document.addEventListener("keydown", function(event) {
-    if (event.key === "Escape" && sideMenu.classList.contains("active")) {
-        closeMenu();
-    }
+menuBtn.addEventListener('click', () => {
+  const open = menu.classList.toggle('open');
+  menuBtn.textContent = open ? '✕' : '☰';
+  menuBtn.setAttribute('aria-expanded', String(open));
 });
 
-/* APK DOWNLOAD LOADING */
+document.querySelectorAll('.menu a').forEach(link => {
+  link.addEventListener('click', () => {
+    menu.classList.remove('open');
+    menuBtn.textContent = '☰';
+    menuBtn.setAttribute('aria-expanded', 'false');
+  });
+});
 
-const downloadBtn = document.getElementById("downloadBtn");
-const downloadText = document.getElementById("downloadText");
-const downloadIcon = document.getElementById("downloadIcon");
-
-downloadBtn.addEventListener("click", function(event) {
+document.querySelectorAll('.install').forEach(button => {
+  button.addEventListener('click', event => {
     event.preventDefault();
+    const destination = button.href;
+    overlay.classList.add('show');
 
-    if (downloadBtn.classList.contains("loading")) {
-        return;
-    }
-
-    const apkUrl = downloadBtn.href;
-
-    if (!apkUrl || apkUrl.includes("example.com")) {
-        downloadText.textContent = "Add Your APK Link";
-        return;
-    }
-
-    downloadBtn.classList.add("loading");
-    downloadBtn.setAttribute("aria-busy", "true");
-
-    downloadIcon.outerHTML =
-        '<span class="spinner" id="downloadIcon" aria-hidden="true"></span>';
-
-    downloadText.textContent = "Entering 🚀...";
-
-    setTimeout(function() {
-        window.location.href = apkUrl;
-    }, 800);
+    setTimeout(() => {
+      window.location.href = destination;
+    }, 350);
+  });
 });
+
+document.getElementById('year').textContent = new Date().getFullYear();
 </script>
 
 </body>
 </html>
+
+Important: "logo.png", "logo2.png", "logo3.png" ko apne app icons se replace karna. Install button linked page kholta hai; actual download us page par depend karta hai.
